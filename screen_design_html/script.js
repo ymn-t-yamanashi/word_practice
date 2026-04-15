@@ -31,6 +31,8 @@
     left = total;
     render();
     t = setInterval(tick, 1000);
+    startBtn.classList.add("is-hidden");
+    problemEl.classList.remove("is-hidden-problem");
   });
 
   if (!answerDisplayEl || !problemEl || !judgeEl) return;

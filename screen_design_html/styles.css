@@ -258,6 +258,35 @@ button, .btn {
   letter-spacing: 0.03em;
 }
 
+.problem-stage {
+  position: relative;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.problem-stage .problem {
+  margin: 0;
+  text-align: center;
+}
+
+.problem-stage .problem.is-hidden-problem {
+  visibility: hidden;
+}
+
+.start-overlay-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.start-overlay-btn.is-hidden {
+  display: none;
+}
+
 .status-line {
   display: flex;
   justify-content: space-between;

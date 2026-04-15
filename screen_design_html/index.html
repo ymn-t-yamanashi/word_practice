@@ -8,7 +8,7 @@
 </head>
 <body>
   <main class="app">
-    <header class="header"><div class="brand">練習セッション（自動ミックス）</div><div class="badge">/</div></header>
+    <header class="header"><div class="brand">word_practice</div><div class="badge">/</div></header>
     <nav class="nav">
       <a class="active" href="index.html">練習</a><a href="settings.html">設定</a>
     </nav>
@@ -19,13 +19,13 @@
           <div class="status-line"><span>Q 3 / 10</span><span id="timer">30s</span></div>
           <div class="progress"><div id="bar"></div></div>
           <h3>表示（漢字）</h3>
-          <div id="problem" class="problem" data-romaji="gijiroku">議事録</div>
+          <div class="problem-stage">
+            <div id="problem" class="problem is-hidden-problem" data-romaji="gijiroku">議事録</div>
+            <button id="start-demo" class="btn btn-primary start-overlay-btn">スタート</button>
+          </div>
           <label class="label">入力（ローマ字）</label>
           <div id="answer-display" class="answer-display" aria-live="polite"></div>
           <p id="judge-status" class="small" style="margin-top:8px;"></p>
-          <div class="controls">
-            <button id="start-demo" class="btn btn-secondary">スタート</button>
-          </div>
         </section>
 
         <section class="grid three" style="margin-top:14px;">
@@ -43,8 +43,12 @@
           <li><strong>議事録</strong><span>タイムアウト 2回</span></li>
           <li><strong>要件定義</strong><span>ローマ字ミス 1回</span></li>
           <li><strong>進捗管理</strong><span>回答遅延 1回</span></li>
+          <li><strong>仕様確認</strong><span>ローマ字ミス 2回</span></li>
+          <li><strong>顧客対応</strong><span>回答遅延 1回</span></li>
+          <li><strong>品質保証</strong><span>タイムアウト 1回</span></li>
+          <li><strong>障害対応</strong><span>ローマ字ミス 1回</span></li>
         </ul>
-        </article>
+      </article>
       </aside>
     </section>
   </main>
