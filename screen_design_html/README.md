@@ -5,7 +5,6 @@
 ## 画面
 - `index.html`: 練習（メイン画面）
 - `practice.html`: 互換リンク（indexへリダイレクト）
-- `review.html`: 出題設定（自動ミックス）
 - `result.html`: 結果
 - `settings.html`: 設定
 

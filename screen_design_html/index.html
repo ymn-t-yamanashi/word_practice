@@ -17,15 +17,14 @@
       <div class="status-line"><span>Q 3 / 10</span><span id="timer">30s</span></div>
       <div class="progress"><div id="bar"></div></div>
       <h3>表示（漢字）</h3>
-      <div class="problem">議事録</div>
+      <div id="problem" class="problem" data-romaji="gijiroku">議事録</div>
       <label class="label">入力（ローマ字）</label>
-      <input class="input" placeholder="gijiroku">
+      <input id="answer-input" class="input" placeholder="gijiroku">
+      <p id="judge-status" class="small" style="margin-top:8px;">入力中にリアルタイム判定します</p>
       <div class="controls">
         <button id="start-demo" class="btn btn-secondary">タイマー開始デモ</button>
-        <button class="btn btn-primary">判定</button>
       </div>
-      <p class="small" style="margin-top:8px;">通常語と苦手語を自動で混ぜて出題。設定した職業に合わせてLLMが問題を生成・自動登録。10秒: 先頭1文字ヒント / 20秒: 先頭2文字ヒント / 30秒: タイムアウト</p>
-      <div class="controls"><a class="btn btn-secondary" href="review.html">出題設定を開く</a></div>
+      <p class="small" style="margin-top:8px;">通常語と苦手語を自動で混ぜて出題。設定した職業に合わせてLLMが問題を生成・自動登録。出題配分も自動最適化。10秒: 先頭1文字ヒント / 20秒: 先頭2文字ヒント / 30秒: タイムアウト</p>
     </section>
   </main>
   <script src="script.js"></script>
