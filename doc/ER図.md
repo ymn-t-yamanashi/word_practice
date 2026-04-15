@@ -120,7 +120,7 @@ erDiagram
 | 項目 | 許容値 | 意味 |
 |---|---|---|
 | `WORDS.source_type` | `user`, `seed`, `internet`, `llm` | ユーザー登録語、初期語彙、インターネット取得語、ローカルLLM生成語 |
-| `PRACTICE_SESSIONS.status` | `running`, `completed`, `failed` | 実行中、正常完了、保存失敗 |
+| `PRACTICE_SESSIONS.status` | `running`, `completed`, `aborted`, `failed` | 実行中、正常完了、途中中断、保存失敗 |
 | `VOCABULARY_FETCH_LOGS.source_type` | `internet`, `llm` | インターネット取得処理、ローカルLLM生成処理 |
 | `VOCABULARY_FETCH_LOGS.status` | `running`, `completed`, `failed` | 実行中、正常完了、取得失敗 |
 | `ANALYSIS_RUNS.status` | `running`, `completed`, `failed` | 分析中、正常完了、分析失敗 |
