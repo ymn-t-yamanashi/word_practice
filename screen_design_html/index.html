@@ -15,34 +15,29 @@
 
     <section class="hero">
       <h1>ローマ字入力 × 漢字表示</h1>
-      <p>実装前の画面設計モックです。タイピング体験を主軸に、単語管理・復習・結果確認・設定までの導線を確認できます。</p>
+      <p>実装前の画面設計モックです。トップに「すぐ練習」を置き、到達直後にタイピング開始できる導線にしています。</p>
     </section>
 
     <nav class="nav" style="margin-top:16px;">
       <a class="active" href="index.html">トップ</a>
       <a href="words.html">単語管理</a>
-      <a href="practice.html">練習</a>
-      <a href="review.html">復習</a>
+      <a href="practice.html">練習 / 復習</a>
       <a href="result.html">結果</a>
       <a href="settings.html">設定</a>
     </nav>
 
-    <section class="grid three">
-      <article class="card">
-        <h2>単語管理</h2>
-        <p class="small">苦手語の登録・編集。漢字主表記とローマ字判定値を保持。</p>
-        <div class="controls"><a class="btn btn-primary" href="words.html">画面を開く</a></div>
-      </article>
-      <article class="card">
-        <h2>練習 / 復習</h2>
-        <p class="small">30秒制限、10秒/20秒ヒント。ローマ字入力で判定。</p>
-        <div class="controls"><a class="btn btn-primary" href="practice.html">練習へ</a><a class="btn btn-secondary" href="review.html">復習へ</a></div>
-      </article>
-      <article class="card">
-        <h2>結果</h2>
-        <p class="small">正答率・平均回答時間・連続正解と推奨単語を確認。</p>
-        <div class="controls"><a class="btn btn-primary" href="result.html">結果を見る</a></div>
-      </article>
+    <section class="card quick-start">
+      <div class="quick-title">
+        <h2>今すぐ練習を開始</h2>
+        <span class="pill">最短 1クリック</span>
+      </div>
+      <p class="small" style="margin-top:6px;">表示は漢字、入力はローマ字。まずはここから開始します。</p>
+      <div class="quick-problem">議事録</div>
+      <label class="label">ローマ字入力（開始前の入力例）</label>
+      <input class="input" placeholder="gijiroku">
+      <div class="quick-actions">
+        <a class="btn btn-quick" href="practice.html">練習を開始する</a>
+      </div>
     </section>
   </main>
 </body>
