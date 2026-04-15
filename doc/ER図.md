@@ -91,6 +91,18 @@ erDiagram
 - `CHAR_STATS` は全回答テキストからの集計テーブルで、単語テーブルへの直接FKは持たない。
 - `WORD_STATS` は `WORDS` と1対1で集計を保持する。
 
+## 各テーブルの説明
+| テーブル名 | 役割 | 主な参照先 |
+|---|---|---|
+| `WORDS` | 出題・判定に使う単語マスタ。漢字表示・ローマ字判定・取得元情報を保持。 | `PRACTICE_ANSWERS`, `WORD_STATS`, `WORD_RECOMMENDATIONS` |
+| `PRACTICE_SESSIONS` | 1回の練習セッション単位の記録（開始終了、出題数、正答数）。 | `PRACTICE_ANSWERS`, `ANALYSIS_RUNS`, `WORD_RECOMMENDATIONS` |
+| `PRACTICE_ANSWERS` | 各設問の回答ログ（入力文字列、正誤、ヒント到達、回答時間）。 | `WORDS`, `PRACTICE_SESSIONS` |
+| `WORD_STATS` | 単語ごとの集計結果（試行回数、誤答回数、タイムアウト回数など）。 | `WORDS` |
+| `CHAR_STATS` | 文字単位の傾向集計（関連試行・関連誤答）。 | 直接FKなし（回答ログ集計） |
+| `VOCABULARY_FETCH_LOGS` | 外部/ローカル語彙取得処理の実行履歴と結果。 | 直接FKなし |
+| `ANALYSIS_RUNS` | セッション終了時のLLM分析実行履歴（モデル、状態、要約）。 | `PRACTICE_SESSIONS` |
+| `WORD_RECOMMENDATIONS` | 次回練習向けの推奨単語と提案理由・スコア。 | `PRACTICE_SESSIONS`, `WORDS` |
+
 ## この設計にした理由
 - タイピング主軸に合わせるため:
   - `WORDS` に `lemma_kanji`（表示）と `lemma_romaji`（判定）を分け、要件の「表示は漢字・入力はローマ字」をそのままデータで表現できるようにした。
