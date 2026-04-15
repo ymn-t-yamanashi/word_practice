@@ -3,44 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>結果 | word_practice</title>
+  <title>練習セッション | word_practice</title>
+  <meta http-equiv="refresh" content="0; url=index.html">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app">
-    <header class="header"><div class="brand">セッション結果</div><div class="badge">/sessions/:id/result</div></header>
-    <nav class="nav">
-      <a href="index.html">練習</a><a class="active" href="result.html">結果</a><a href="settings.html">設定</a>
-    </nav>
-
-    <section class="grid three">
-      <article class="card"><h3>正答率</h3><div class="metric">80%</div></article>
-      <article class="card"><h3>平均回答時間</h3><div class="metric">6.2s</div></article>
-      <article class="card"><h3>連続正解</h3><div class="metric">4</div></article>
-    </section>
-
-    <section class="grid two" style="margin-top:14px;">
-      <article class="card">
-        <h2>苦手傾向</h2>
-        <table class="table">
-          <thead><tr><th>単語</th><th>主因</th><th>回数</th></tr></thead>
-          <tbody>
-            <tr><td>議事録</td><td>タイムアウト</td><td>2</td></tr>
-            <tr><td>要件定義</td><td>ローマ字ミス</td><td>1</td></tr>
-          </tbody>
-        </table>
-      </article>
-      <article class="card">
-        <h2>推奨単語（LLM+統計）</h2>
-        <table class="table">
-          <thead><tr><th>単語</th><th>理由</th><th>スコア</th></tr></thead>
-          <tbody>
-            <tr><td>議事録</td><td>直近タイムアウト多</td><td>0.88</td></tr>
-            <tr><td>進捗確認</td><td>類似語補強</td><td>0.71</td></tr>
-            <tr><td>要件定義</td><td>誤答履歴あり</td><td>0.69</td></tr>
-          </tbody>
-        </table>
-      </article>
+    <section class="card">
+      <h2>結果表示を統合しました</h2>
+      <p class="small">練習と結果は <a href="index.html">index.html</a> の1ページに統合済みです。自動で遷移しない場合はリンクを押してください。</p>
     </section>
   </main>
 </body>

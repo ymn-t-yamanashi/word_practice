@@ -3,9 +3,9 @@
 画面設計用の静的HTMLモックです。
 
 ## 画面
-- `index.html`: 練習（メイン画面）
+- `index.html`: 練習 + 結果（メイン画面）
 - `practice.html`: 互換リンク（indexへリダイレクト）
-- `result.html`: 結果
+- `result.html`: 互換リンク（indexへリダイレクト）
 - `settings.html`: 設定
 
 ## 観点

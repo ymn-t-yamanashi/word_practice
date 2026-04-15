@@ -10,7 +10,7 @@
   <main class="app">
     <header class="header"><div class="brand">練習セッション（自動ミックス）</div><div class="badge">/</div></header>
     <nav class="nav">
-      <a class="active" href="index.html">練習</a><a href="result.html">結果</a><a href="settings.html">設定</a>
+      <a class="active" href="index.html">練習</a><a href="settings.html">設定</a>
     </nav>
 
     <section class="card">
@@ -25,6 +25,36 @@
         <button id="start-demo" class="btn btn-secondary">タイマー開始デモ</button>
       </div>
       <p class="small" style="margin-top:8px;">通常語と苦手語を自動で混ぜて出題。設定した職業に合わせてLLMが問題を生成・自動登録。出題配分も自動最適化。10秒: 先頭1文字ヒント / 20秒: 先頭2文字ヒント / 30秒: タイムアウト</p>
+    </section>
+
+    <section class="grid three" style="margin-top:14px;">
+      <article class="card"><h3>正答率</h3><div class="metric">80%</div></article>
+      <article class="card"><h3>平均回答時間</h3><div class="metric">6.2s</div></article>
+      <article class="card"><h3>連続正解</h3><div class="metric">4</div></article>
+    </section>
+
+    <section class="grid two" style="margin-top:14px;">
+      <article class="card">
+        <h2>苦手傾向</h2>
+        <table class="table">
+          <thead><tr><th>単語</th><th>主因</th><th>回数</th></tr></thead>
+          <tbody>
+            <tr><td>議事録</td><td>タイムアウト</td><td>2</td></tr>
+            <tr><td>要件定義</td><td>ローマ字ミス</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </article>
+      <article class="card">
+        <h2>推奨単語（LLM+統計）</h2>
+        <table class="table">
+          <thead><tr><th>単語</th><th>理由</th><th>スコア</th></tr></thead>
+          <tbody>
+            <tr><td>議事録</td><td>直近タイムアウト多</td><td>0.88</td></tr>
+            <tr><td>進捗確認</td><td>類似語補強</td><td>0.71</td></tr>
+            <tr><td>要件定義</td><td>誤答履歴あり</td><td>0.69</td></tr>
+          </tbody>
+        </table>
+      </article>
     </section>
   </main>
   <script src="script.js"></script>
