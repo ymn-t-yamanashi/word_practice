@@ -2,7 +2,7 @@
   var timerEl = document.getElementById("timer");
   var barEl = document.getElementById("bar");
   var startBtn = document.getElementById("start-demo");
-  var inputEl = document.getElementById("answer-input");
+  var answerDisplayEl = document.getElementById("answer-display");
   var problemEl = document.getElementById("problem");
   var judgeEl = document.getElementById("judge-status");
   if (!timerEl || !barEl || !startBtn) return;
@@ -33,14 +33,15 @@
     t = setInterval(tick, 1000);
   });
 
-  if (!inputEl || !problemEl || !judgeEl) return;
+  if (!answerDisplayEl || !problemEl || !judgeEl) return;
   var answer = (problemEl.getAttribute("data-romaji") || "").toLowerCase();
+  var typed = "";
 
-  inputEl.addEventListener("input", function () {
-    var typed = inputEl.value.trim().toLowerCase();
+  function renderJudge() {
+    answerDisplayEl.textContent = typed;
 
     if (!typed) {
-      judgeEl.textContent = "入力中にリアルタイム判定します";
+      judgeEl.textContent = "";
       judgeEl.style.color = "";
       return;
     }
@@ -59,5 +60,25 @@
 
     judgeEl.textContent = "不一致（ローマ字を確認）";
     judgeEl.style.color = "#b34d2e";
+  }
+
+  window.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === "Backspace") {
+      typed = typed.slice(0, -1);
+      renderJudge();
+      e.preventDefault();
+      return;
+    }
+    if (e.key === "Escape") {
+      typed = "";
+      renderJudge();
+      return;
+    }
+    if (/^[a-zA-Z]$/.test(e.key)) {
+      typed += e.key.toLowerCase();
+      renderJudge();
+      e.preventDefault();
+    }
   });
 })();
