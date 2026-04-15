@@ -15,15 +15,26 @@
 
     <section class="grid two">
       <article class="card">
-        <h2>語彙取得設定</h2>
-        <label class="label">優先順</label><input class="input" value="登録語 > ローカル > インターネット > ローカルLLM">
-        <label class="label" style="margin-top:10px;">不適切語フィルタ</label><input class="input" value="有効">
-        <div class="controls"><button class="btn btn-primary">保存</button></div>
+        <h2>職業ベース問題登録</h2>
+        <label class="label">職業</label>
+        <select class="input">
+          <option>ソフトウェアエンジニア</option>
+          <option>営業</option>
+          <option>看護師</option>
+          <option>教師</option>
+          <option>事務</option>
+        </select>
+        <label class="label" style="margin-top:10px;">自動登録</label><input class="input" value="有効（職業変更時に30問追加）">
+        <label class="label" style="margin-top:10px;">生成元</label><input class="input" value="LLM生成（不足時はインターネット補完）">
+        <div class="controls">
+          <button class="btn btn-primary">職業に合わせて問題を登録</button>
+        </div>
       </article>
       <article class="card">
         <h2>LLM設定</h2>
         <label class="label">モデル</label><input class="input" value="Llama-3.1-Swallow-8B-Instruct">
-        <label class="label" style="margin-top:10px;">実行タイミング</label><input class="input" value="セッション終了時">
+        <label class="label" style="margin-top:10px;">実行タイミング</label><input class="input" value="職業変更時 / セッション終了時">
+        <label class="label" style="margin-top:10px;">生成プロンプト</label><input class="input" value="職業で頻出の実務語を漢字表示・ローマ字入力で出題可能な形で生成">
         <div class="controls"><button class="btn btn-primary">保存</button></div>
       </article>
     </section>
