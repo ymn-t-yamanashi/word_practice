@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>練習 | word_practice</title>
+  <title>練習セッション | word_practice</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app">
-    <header class="header"><div class="brand">練習セッション</div><div class="badge">/practice</div></header>
+    <header class="header"><div class="brand">練習セッション（自動ミックス）</div><div class="badge">/practice</div></header>
     <nav class="nav">
-      <a href="index.html">トップ</a><a href="words.html">単語管理</a><a class="active" href="practice.html">練習</a><a href="review.html">復習</a><a href="result.html">結果</a><a href="settings.html">設定</a>
+      <a href="index.html">トップ</a><a href="words.html">単語管理</a><a class="active" href="practice.html">練習</a><a href="result.html">結果</a><a href="settings.html">設定</a>
     </nav>
 
     <section class="card">
@@ -24,7 +24,8 @@
         <button id="start-demo" class="btn btn-secondary">タイマー開始デモ</button>
         <button class="btn btn-primary">判定</button>
       </div>
-      <p class="small" style="margin-top:8px;">10秒: 先頭1文字ヒント / 20秒: 先頭2文字ヒント / 30秒: タイムアウト</p>
+      <p class="small" style="margin-top:8px;">通常語と苦手語を自動で混ぜて出題。10秒: 先頭1文字ヒント / 20秒: 先頭2文字ヒント / 30秒: タイムアウト</p>
+      <div class="controls"><a class="btn btn-secondary" href="review.html">出題設定を開く</a></div>
     </section>
   </main>
   <script src="script.js"></script>
