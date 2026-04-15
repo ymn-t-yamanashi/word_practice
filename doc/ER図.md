@@ -16,6 +16,16 @@ erDiagram
         datetime updated_at "更新日時"
     }
 
+    APP_SETTINGS {
+        integer id PK "設定ID"
+        text occupation "選択職業"
+        boolean auto_register_enabled "自動登録ON/OFF"
+        integer auto_register_count "職業変更時の登録件数"
+        text llm_model_name "LLMモデル名"
+        text generation_prompt "生成プロンプト"
+        datetime updated_at "更新日時"
+    }
+
     PRACTICE_SESSIONS {
         integer id PK "セッションID"
         text mode "セッション種別"
@@ -53,6 +63,7 @@ erDiagram
 
     VOCABULARY_FETCH_LOGS {
         integer id PK "取得ログID"
+        integer setting_id FK "設定ID"
         text source_type "取得元種別"
         text status "実行ステータス"
         integer fetched_count "取得件数"
@@ -82,6 +93,7 @@ erDiagram
     PRACTICE_SESSIONS ||--o{ PRACTICE_ANSWERS : 回答を持つ
     WORDS ||--o{ PRACTICE_ANSWERS : 回答対象
     WORDS ||--|| WORD_STATS : 単語統計
+    APP_SETTINGS ||--o{ VOCABULARY_FETCH_LOGS : 自動登録実行条件
     PRACTICE_SESSIONS ||--o{ ANALYSIS_RUNS : 分析実行
     PRACTICE_SESSIONS ||--o{ WORD_RECOMMENDATIONS : 提案出力
     WORDS ||--o{ WORD_RECOMMENDATIONS : 提案単語
@@ -95,11 +107,12 @@ erDiagram
 | テーブル名 | 役割 | 主な参照先 |
 |---|---|---|
 | `WORDS` | 出題・判定に使う単語マスタ。漢字表示・ローマ字判定・取得元情報を保持。 | `PRACTICE_ANSWERS`, `WORD_STATS`, `WORD_RECOMMENDATIONS` |
+| `APP_SETTINGS` | 職業選択、自動登録ON/OFF、LLM生成条件などのアプリ設定を保持。 | `VOCABULARY_FETCH_LOGS` |
 | `PRACTICE_SESSIONS` | 1回の練習セッション単位の記録（開始終了、出題数、正答数）。 | `PRACTICE_ANSWERS`, `ANALYSIS_RUNS`, `WORD_RECOMMENDATIONS` |
 | `PRACTICE_ANSWERS` | 各設問の回答ログ（入力文字列、正誤、ヒント到達、回答時間）。 | `WORDS`, `PRACTICE_SESSIONS` |
 | `WORD_STATS` | 単語ごとの集計結果（試行回数、誤答回数、タイムアウト回数など）。 | `WORDS` |
 | `CHAR_STATS` | 文字単位の傾向集計（関連試行・関連誤答）。 | 直接FKなし（回答ログ集計） |
-| `VOCABULARY_FETCH_LOGS` | 外部/ローカル語彙取得処理の実行履歴と結果。 | 直接FKなし |
+| `VOCABULARY_FETCH_LOGS` | 外部/ローカル語彙取得処理の実行履歴と結果。職業設定に基づく自動登録実行も記録。 | `APP_SETTINGS` |
 | `ANALYSIS_RUNS` | セッション終了時のLLM分析実行履歴（モデル、状態、要約）。 | `PRACTICE_SESSIONS` |
 | `WORD_RECOMMENDATIONS` | 次回練習向けの推奨単語と提案理由・スコア。 | `PRACTICE_SESSIONS`, `WORDS` |
 
@@ -114,5 +127,7 @@ erDiagram
   - `ANALYSIS_RUNS` と `WORD_RECOMMENDATIONS` を分け、分析実行履歴と提案結果を独立して保存し、後から妥当性を検証できるようにした。
 - 外部語彙取り込みの運用性を上げるため:
   - `WORDS` に `source_type/source_ref/fetched_at`、別途 `VOCABULARY_FETCH_LOGS` を持たせ、取得元・失敗原因・再実行履歴を管理できるようにした。
+- 職業ベース自動登録を再現可能にするため:
+  - `APP_SETTINGS` に職業とLLM生成条件を保存し、`VOCABULARY_FETCH_LOGS` に `setting_id` を持たせて「どの設定で自動登録が実行されたか」を追跡できるようにした。
 - SQLite3前提で実装を単純化するため:
   - 単一ユーザー運用を前提に、必要十分な正規化に留めつつテーブル数を抑え、実装初期の複雑性と運用負荷を下げた。
