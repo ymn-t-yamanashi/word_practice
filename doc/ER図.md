@@ -3,141 +3,88 @@
 ```mermaid
 erDiagram
     WORDS {
-        %% 単語ID
-        integer id PK
-        %% 主表示用の漢字表記
-        text lemma_kanji
-        %% 判定用のローマ字表記
-        text lemma_romaji
-        %% 表記ゆれ（かな/カナ/英字）
-        text variants
-        %% 管理メモ
-        text note
-        %% 取得元種別（manual/local_seed/internet/llm）
-        text source_type
-        %% 取得元の参照情報（URLやモデル名など）
-        text source_ref
-        %% 取得日時
-        datetime fetched_at
-        %% 難易度タグ
-        text difficulty_tag
-        %% 作成日時
-        datetime inserted_at
-        %% 更新日時
-        datetime updated_at
+        integer id PK "単語ID"
+        text lemma_kanji "主表示の漢字"
+        text lemma_romaji "判定用ローマ字"
+        text variants "表記ゆれ"
+        text note "管理メモ"
+        text source_type "取得元種別"
+        text source_ref "取得元参照"
+        datetime fetched_at "取得日時"
+        text difficulty_tag "難易度タグ"
+        datetime inserted_at "作成日時"
+        datetime updated_at "更新日時"
     }
 
     PRACTICE_SESSIONS {
-        %% セッションID
-        integer id PK
-        %% セッション種別（practice/review）
-        text mode
-        %% 開始時刻
-        datetime started_at
-        %% 終了時刻
-        datetime ended_at
-        %% 出題数
-        integer total_questions
-        %% 正答数
-        integer correct_count
+        integer id PK "セッションID"
+        text mode "セッション種別"
+        datetime started_at "開始時刻"
+        datetime ended_at "終了時刻"
+        integer total_questions "出題数"
+        integer correct_count "正答数"
     }
 
     PRACTICE_ANSWERS {
-        %% 回答ID
-        integer id PK
-        %% セッションID
-        integer session_id FK
-        %% 出題単語ID
-        integer word_id FK
-        %% ユーザー入力（ローマ字）
-        text input_text
-        %% 正誤
-        boolean is_correct
-        %% 到達ヒント段階
-        integer hint_stage
-        %% 回答時間(ms)
-        integer response_ms
+        integer id PK "回答ID"
+        integer session_id FK "セッションID"
+        integer word_id FK "単語ID"
+        text input_text "入力ローマ字"
+        boolean is_correct "正誤"
+        integer hint_stage "到達ヒント段階"
+        integer response_ms "回答時間(ms)"
     }
 
     WORD_STATS {
-        %% 単語ID（WORDSと1対1）
-        integer word_id PK,FK
-        %% 試行回数
-        integer attempts
-        %% 誤答回数
-        integer wrong_count
-        %% タイムアウト回数
-        integer timeout_count
-        %% ヒント到達回数
-        integer hint_reached_count
-        %% 更新日時
-        datetime updated_at
+        integer word_id PK,FK "単語ID"
+        integer attempts "試行回数"
+        integer wrong_count "誤答回数"
+        integer timeout_count "タイムアウト回数"
+        integer hint_reached_count "ヒント到達回数"
+        datetime updated_at "更新日時"
     }
 
     CHAR_STATS {
-        %% 文字（キー）
-        text char PK
-        %% 関連試行回数
-        integer related_attempts
-        %% 関連誤答回数
-        integer related_wrong_count
-        %% 更新日時
-        datetime updated_at
+        text char PK "文字キー"
+        integer related_attempts "関連試行回数"
+        integer related_wrong_count "関連誤答回数"
+        datetime updated_at "更新日時"
     }
 
     VOCABULARY_FETCH_LOGS {
-        %% 取得ログID
-        integer id PK
-        %% 取得元種別
-        text source_type
-        %% 実行結果ステータス
-        text status
-        %% 取得件数
-        integer fetched_count
-        %% エラーメッセージ
-        text error_message
-        %% 実行日時
-        datetime executed_at
+        integer id PK "取得ログID"
+        text source_type "取得元種別"
+        text status "実行ステータス"
+        integer fetched_count "取得件数"
+        text error_message "エラー内容"
+        datetime executed_at "実行日時"
     }
 
     ANALYSIS_RUNS {
-        %% 分析実行ID
-        integer id PK
-        %% 対象セッションID
-        integer session_id FK
-        %% 利用モデル名
-        text model_name
-        %% 実行結果ステータス
-        text status
-        %% 分析要約
-        text summary
-        %% 実行日時
-        datetime executed_at
+        integer id PK "分析実行ID"
+        integer session_id FK "セッションID"
+        text model_name "モデル名"
+        text status "実行ステータス"
+        text summary "分析要約"
+        datetime executed_at "実行日時"
     }
 
     WORD_RECOMMENDATIONS {
-        %% 提案ID
-        integer id PK
-        %% 対象セッションID
-        integer session_id FK
-        %% 提案単語ID
-        integer word_id FK
-        %% 提案スコア
-        real score
-        %% 提案理由
-        text reason
-        %% 生成元（rule/llm/hybrid）
-        text source
-        %% 作成日時
-        datetime created_at
+        integer id PK "提案ID"
+        integer session_id FK "セッションID"
+        integer word_id FK "単語ID"
+        real score "提案スコア"
+        text reason "提案理由"
+        text source "生成元"
+        datetime created_at "作成日時"
     }
 
-    PRACTICE_SESSIONS ||--o{ PRACTICE_ANSWERS : has
-    WORDS ||--o{ PRACTICE_ANSWERS : answered_as
-    WORDS ||--|| WORD_STATS : aggregated_to
-    PRACTICE_SESSIONS ||--o{ ANALYSIS_RUNS : analyzed_by
-    PRACTICE_SESSIONS ||--o{ WORD_RECOMMENDATIONS : outputs
-    WORDS ||--o{ WORD_RECOMMENDATIONS : recommends
+    PRACTICE_SESSIONS ||--o{ PRACTICE_ANSWERS : 回答を持つ
+    WORDS ||--o{ PRACTICE_ANSWERS : 回答対象
+    WORDS ||--|| WORD_STATS : 単語統計
+    PRACTICE_SESSIONS ||--o{ ANALYSIS_RUNS : 分析実行
+    PRACTICE_SESSIONS ||--o{ WORD_RECOMMENDATIONS : 提案出力
+    WORDS ||--o{ WORD_RECOMMENDATIONS : 提案単語
 ```
 
 ## 補足
