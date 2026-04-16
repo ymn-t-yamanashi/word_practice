@@ -14,6 +14,125 @@ defmodule WordPractice.Practice do
   @session_size 10
   @single_mode "single"
   @srs_intervals [0, 1, 3, 7, 14, 30]
+  @digraph_map %{
+    "きゃ" => ["kya"],
+    "きゅ" => ["kyu"],
+    "きょ" => ["kyo"],
+    "しゃ" => ["sha", "sya"],
+    "しゅ" => ["shu", "syu"],
+    "しょ" => ["sho", "syo"],
+    "ちゃ" => ["cha", "cya", "tya"],
+    "ちゅ" => ["chu", "cyu", "tyu"],
+    "ちょ" => ["cho", "cyo", "tyo"],
+    "にゃ" => ["nya"],
+    "にゅ" => ["nyu"],
+    "にょ" => ["nyo"],
+    "ひゃ" => ["hya"],
+    "ひゅ" => ["hyu"],
+    "ひょ" => ["hyo"],
+    "みゃ" => ["mya"],
+    "みゅ" => ["myu"],
+    "みょ" => ["myo"],
+    "りゃ" => ["rya"],
+    "りゅ" => ["ryu"],
+    "りょ" => ["ryo"],
+    "ぎゃ" => ["gya"],
+    "ぎゅ" => ["gyu"],
+    "ぎょ" => ["gyo"],
+    "じゃ" => ["ja", "jya", "zya"],
+    "じゅ" => ["ju", "jyu", "zyu"],
+    "じょ" => ["jo", "jyo", "zyo"],
+    "ぢゃ" => ["ja", "dya", "zya"],
+    "ぢゅ" => ["ju", "dyu", "zyu"],
+    "ぢょ" => ["jo", "dyo", "zyo"],
+    "びゃ" => ["bya"],
+    "びゅ" => ["byu"],
+    "びょ" => ["byo"],
+    "ぴゃ" => ["pya"],
+    "ぴゅ" => ["pyu"],
+    "ぴょ" => ["pyo"]
+  }
+  @kana_map %{
+    "あ" => ["a"],
+    "い" => ["i", "yi"],
+    "う" => ["u", "wu", "whu"],
+    "え" => ["e"],
+    "お" => ["o"],
+    "か" => ["ka", "ca"],
+    "き" => ["ki"],
+    "く" => ["ku", "cu", "qu"],
+    "け" => ["ke"],
+    "こ" => ["ko", "co"],
+    "さ" => ["sa"],
+    "し" => ["shi", "si", "ci"],
+    "す" => ["su"],
+    "せ" => ["se", "ce"],
+    "そ" => ["so"],
+    "た" => ["ta"],
+    "ち" => ["chi", "ti"],
+    "つ" => ["tsu", "tu"],
+    "て" => ["te"],
+    "と" => ["to"],
+    "な" => ["na"],
+    "に" => ["ni"],
+    "ぬ" => ["nu"],
+    "ね" => ["ne"],
+    "の" => ["no"],
+    "は" => ["ha"],
+    "ひ" => ["hi"],
+    "ふ" => ["fu", "hu"],
+    "へ" => ["he"],
+    "ほ" => ["ho"],
+    "ま" => ["ma"],
+    "み" => ["mi"],
+    "む" => ["mu"],
+    "め" => ["me"],
+    "も" => ["mo"],
+    "や" => ["ya"],
+    "ゆ" => ["yu"],
+    "よ" => ["yo"],
+    "ら" => ["ra"],
+    "り" => ["ri"],
+    "る" => ["ru"],
+    "れ" => ["re"],
+    "ろ" => ["ro"],
+    "わ" => ["wa"],
+    "を" => ["o", "wo"],
+    "ん" => ["n", "nn", "n'"],
+    "が" => ["ga"],
+    "ぎ" => ["gi"],
+    "ぐ" => ["gu"],
+    "げ" => ["ge"],
+    "ご" => ["go"],
+    "ざ" => ["za"],
+    "じ" => ["ji", "zi"],
+    "ず" => ["zu"],
+    "ぜ" => ["ze"],
+    "ぞ" => ["zo"],
+    "だ" => ["da"],
+    "ぢ" => ["ji", "di", "zi"],
+    "づ" => ["zu", "du"],
+    "で" => ["de"],
+    "ど" => ["do"],
+    "ば" => ["ba"],
+    "び" => ["bi"],
+    "ぶ" => ["bu"],
+    "べ" => ["be"],
+    "ぼ" => ["bo"],
+    "ぱ" => ["pa"],
+    "ぴ" => ["pi"],
+    "ぷ" => ["pu"],
+    "ぺ" => ["pe"],
+    "ぽ" => ["po"],
+    "ぁ" => ["xa", "la"],
+    "ぃ" => ["xi", "li"],
+    "ぅ" => ["xu", "lu"],
+    "ぇ" => ["xe", "le"],
+    "ぉ" => ["xo", "lo"],
+    "ゃ" => ["xya", "lya"],
+    "ゅ" => ["xyu", "lyu"],
+    "ょ" => ["xyo", "lyo"]
+  }
 
   def session_size, do: @session_size
 
@@ -159,7 +278,25 @@ defmodule WordPractice.Practice do
     }
   end
 
-  def normalize_input(input), do: String.trim(input || "")
+  def normalize_input(input), do: input |> String.trim() |> String.downcase()
+
+  def accepted_romaji_patterns(%Word{} = word), do: accepted_romaji_patterns(word.reading_kana)
+
+  def accepted_romaji_patterns(kana) when is_binary(kana) do
+    kana
+    |> kana_tokens()
+    |> expand_tokens([""])
+    |> Enum.map(&normalize_input/1)
+    |> MapSet.new()
+  end
+
+  def romaji_match?(input, %Word{} = word) do
+    MapSet.member?(accepted_romaji_patterns(word), normalize_input(input))
+  end
+
+  def romaji_match?(input, expected) when is_binary(expected) do
+    normalize_input(input) == normalize_input(expected)
+  end
 
   def hint_stage(elapsed_seconds) when elapsed_seconds >= 20, do: 2
   def hint_stage(elapsed_seconds) when elapsed_seconds >= 10, do: 1
@@ -267,4 +404,84 @@ defmodule WordPractice.Practice do
 
   defp average([]), do: 0.0
   defp average(values), do: Enum.sum(values) / length(values)
+
+  defp kana_tokens(kana), do: kana_tokens(String.graphemes(kana), [])
+
+  defp kana_tokens([], acc), do: Enum.reverse(acc)
+
+  defp kana_tokens([current, next | rest], acc) do
+    pair = current <> next
+
+    cond do
+      Map.has_key?(@digraph_map, pair) ->
+        kana_tokens(rest, [pair | acc])
+
+      true ->
+        kana_tokens([next | rest], [current | acc])
+    end
+  end
+
+  defp kana_tokens([current], acc), do: Enum.reverse([current | acc])
+
+  defp expand_tokens([], acc), do: acc
+
+  defp expand_tokens(["っ" | rest], acc) do
+    next_forms = token_forms(rest)
+
+    expanded =
+      Enum.flat_map(acc, fn prefix ->
+        Enum.flat_map(next_forms, fn form ->
+          doubled =
+            form
+            |> String.first()
+            |> case do
+              nil -> [prefix]
+              first -> [prefix <> first]
+            end
+
+          doubled
+        end)
+      end)
+
+    expand_tokens(rest, expanded)
+  end
+
+  defp expand_tokens([token | rest], acc) do
+    forms = token_forms([token | rest])
+
+    acc
+    |> Enum.flat_map(fn prefix -> Enum.map(forms, &(prefix <> &1)) end)
+    |> then(&expand_tokens(rest, &1))
+  end
+
+  defp token_forms([token, next | _rest]) when token == "ん" do
+    next_initials =
+      next
+      |> raw_token_forms()
+      |> Enum.map(&String.first/1)
+      |> Enum.reject(&is_nil/1)
+      |> MapSet.new()
+
+    forms =
+      cond do
+        MapSet.intersection(next_initials, MapSet.new(["a", "i", "u", "e", "o", "y", "n"])) !=
+            MapSet.new() ->
+          ["n", "nn", "n'"]
+
+        true ->
+          ["n", "nn", "n'"]
+      end
+
+    if MapSet.intersection(next_initials, MapSet.new(["b", "m", "p"])) != MapSet.new() do
+      forms ++ ["m"]
+    else
+      forms
+    end
+  end
+
+  defp token_forms([token | _rest]), do: raw_token_forms(token)
+
+  defp raw_token_forms(token) when is_binary(token) do
+    Map.get(@digraph_map, token) || Map.get(@kana_map, token) || [token]
+  end
 end

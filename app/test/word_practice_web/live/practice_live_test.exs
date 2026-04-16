@@ -5,6 +5,15 @@ defmodule WordPracticeWeb.PracticeLiveTest do
 
   setup do
     WordPractice.DataCase.practice_word_fixture()
+
+    WordPractice.DataCase.practice_word_fixture(%{
+      lemma_kanji: "仕様確認",
+      reading_kana: "しようかくにん",
+      reading_katakana: "シヨウカクニン",
+      lemma_en: "spec review",
+      lemma_romaji: "shiyoukakunin"
+    })
+
     :ok
   end
 
@@ -28,6 +37,25 @@ defmodule WordPracticeWeb.PracticeLiveTest do
 
     html =
       Enum.reduce(String.graphemes("gijiroku"), html, fn char, _acc ->
+        render_keydown(view, "keydown", %{"key" => char})
+      end)
+
+    assert html =~ "正解です"
+  end
+
+  test "accepts romaji variants like si for shi", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    view
+    |> element("button", "スタート")
+    |> render_click()
+
+    Enum.each(String.graphemes("gijiroku"), fn char ->
+      render_keydown(view, "keydown", %{"key" => char})
+    end)
+
+    html =
+      Enum.reduce(String.graphemes("siyoukakunin"), "", fn char, _acc ->
         render_keydown(view, "keydown", %{"key" => char})
       end)
 

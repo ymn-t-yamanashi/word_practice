@@ -215,7 +215,7 @@ defmodule WordPracticeWeb.PracticeLive do
     current_word = Practice.current_word(state)
     normalized_input = Practice.normalize_input(state.current_input)
 
-    if current_word && normalized_input == current_word.lemma_romaji do
+    if current_word && Practice.romaji_match?(normalized_input, current_word) do
       finalize_answer(socket, state, :correct)
     else
       socket
